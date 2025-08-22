@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../model/habit.dart';
+import '../../provider/habits_provider.dart';
 import 'day_logs/day_logs_sheet.dart';
 import 'day_cell.dart';
 
 class CalendarCard extends StatefulWidget {
-  final List<Habit> habits;
-  const CalendarCard({super.key, required this.habits});
+  const CalendarCard({super.key});
 
   @override
   State<CalendarCard> createState() => _CalendarCardState();
@@ -20,6 +20,10 @@ class _CalendarCardState extends State<CalendarCard> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
 
+    final habitsProv = context.watch<HabitsProvider>();
+    List<Color> colorsForDay(day) => habitsProv.colorsForDay(day);
+    Widget cell(_, day, __) => DayCell(date: day, colors: colorsForDay(day));
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: TableCalendar<Color>(
@@ -28,7 +32,7 @@ class _CalendarCardState extends State<CalendarCard> {
         focusedDay: _focused,
         shouldFillViewport: true,
 
-        eventLoader: (day) => getColorsForDay(day),
+        eventLoader: colorsForDay,
 
         onDaySelected: (selectedDay, _) {
           showModalBottomSheet<void>(
@@ -39,9 +43,9 @@ class _CalendarCardState extends State<CalendarCard> {
         },
 
         calendarBuilders: CalendarBuilders(
-          defaultBuilder:  getCell,
-          todayBuilder:    getCell,
-          selectedBuilder: getCell,
+          defaultBuilder:  cell,
+          todayBuilder:    cell,
+          selectedBuilder: cell,
 
           // Remove event dots
           markerBuilder: (_, __, ___) => const SizedBox.shrink(),
@@ -60,18 +64,4 @@ class _CalendarCardState extends State<CalendarCard> {
       ),
     );
   }
-
-  List<Color> getColorsForDay(DateTime day) {
-    final k = roundDay(day);
-    return widget.habits
-        .where((h) => h.datesDone
-        .any((d) => roundDay(d) == k))
-        .map((h) => h.color)
-        .toList();
-  }
-
-  DateTime roundDay(DateTime d) => DateTime(d.year, d.month, d.day);
-
-  Widget getCell(BuildContext ctx, DateTime day, DateTime _) =>
-      DayCell(date: day, colors: getColorsForDay(day));
 }

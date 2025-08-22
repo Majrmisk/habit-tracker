@@ -18,20 +18,20 @@ class LogBar extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
 
     return Container(
-      color: scheme.secondary,
+      color: scheme.surfaceContainerHighest,
       child: SafeArea(
         top: false,
         child: Container(
           width: double.infinity,
           height: 50,
-          color: scheme.secondary,
+          color: scheme.surfaceContainerHighest,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
               Text(
                 'LOG',
                 style: TextStyle(
-                  color: scheme.onSecondary,
+                  color: scheme.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -39,7 +39,7 @@ class LogBar extends StatelessWidget {
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    foregroundColor: scheme.onSecondary,
+                    foregroundColor: scheme.primary,
                   ),
                   onPressed: addNow,
                   child: const Text('Now'),
@@ -51,7 +51,7 @@ class LogBar extends StatelessWidget {
               Expanded(
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    foregroundColor: scheme.onSecondary,
+                    foregroundColor: scheme.primary,
                   ),
                   onPressed: addSpecific,
                   child: const Text('Custom'),

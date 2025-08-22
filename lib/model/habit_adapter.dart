@@ -12,6 +12,7 @@ class HabitAdapter extends TypeAdapter<Habit> {
       name: reader.readString(),
       color: Color(reader.readInt()),
       datesDone: reader.readList().cast<DateTime>(),
+      created: reader.read()
     );
   }
 
@@ -20,5 +21,6 @@ class HabitAdapter extends TypeAdapter<Habit> {
     writer.writeString(obj.name);
     writer.writeInt(obj.colorInt);
     writer.writeList(obj.datesDone);
+    writer.write(obj.created);
   }
 }

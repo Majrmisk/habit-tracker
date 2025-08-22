@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/widgets/habits/manage_habit/buttons_row.dart';
+import 'package:habit_tracker/utils/confirm_buttons_row.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/habit.dart';
-import '../../../provider/HabitsProvider.dart';
-import 'grid_color_picker.dart';
+import '../../../provider/habits_provider.dart';
+import '../../../utils/utils.dart';
+import '../../../utils/grid_color_picker.dart';
 
 class ManageHabitSheet extends StatefulWidget {
   final Habit? habit;
@@ -56,6 +57,7 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
             const SizedBox(height: 16),
 
             GridColorPicker(
+              palette: habitsPalette,
               picked: _picked,
               onPick: (color) => setState(() => _picked = color),
             ),

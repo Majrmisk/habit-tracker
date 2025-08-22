@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/widgets/habits/habit_details/header_bar.dart';
 import 'package:habit_tracker/widgets/habits/habit_details/log_bar.dart';
+import 'package:habit_tracker/widgets/habits/habit_details/stat.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/habit.dart';
-import '../../../provider/HabitsProvider.dart';
+import '../../../provider/habits_provider.dart';
+import '../../../utils/utils.dart';
 import '../manage_habit/manage_habit_sheet.dart';
 
 class HabitDetailsSheet extends StatefulWidget {
@@ -35,54 +37,70 @@ class _HabitDetailsSheetState extends State<HabitDetailsSheet> {
       height: maxHeight,
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        child: Container(
-          color: scheme.surfaceContainerHighest,
-          child: Column(
-            children: [
-              HeaderBar(
-                  habit: widget.habit,
-                  openEdit: _openEdit,
-                  openDelete: _openDelete
-              ),
-              Expanded(
-                child: history.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Never done',
-                        style: TextStyle(
-                          color: scheme.onSurfaceVariant,
-                        ),
-                      ),
-                    )
-                  : ListView.separated(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      itemCount: history.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
-                      itemBuilder: (_, i) {
-                        final label = _formatter.format(history[i]);
-                        return ListTile(
-                          title: Text(label),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            color: scheme.secondary,
-                            onPressed: () => setState(() {
-                              context
-                                  .read<HabitsProvider>()
-                                  .removeLog(widget.habit, history[i]);
-                            }),
-                          ),
-                        );
-                      },
-                    ),
-              ),
-
-              LogBar(
+        child: Column(
+          children: [
+            HeaderBar(
                 habit: widget.habit,
-                addSpecific: _addSpecific,
-                addNow: _addNow,
-              )
-            ],
-          ),
+                openEdit: _openEdit,
+                openDelete: _openDelete
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Row(
+                children: [
+                  Stat(
+                      value: _getAvgPerWeek(widget.habit),
+                      label: 'Avg/week',
+                  ),
+                  Stat(
+                      value: widget.habit.datesDone.length.toString(),
+                      label: 'Times done',
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(height: 1),
+
+            Expanded(
+              child: history.isEmpty
+                ? Center(
+                    child: Text(
+                      'Never done',
+                      style: TextStyle(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
+                  )
+                : ListView.separated(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: history.length,
+                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    itemBuilder: (_, i) {
+                      final label = _formatter.format(history[i]);
+                      return ListTile(
+                        title: Text(label),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          color: scheme.secondary,
+                          onPressed: () => setState(() {
+                            context
+                                .read<HabitsProvider>()
+                                .removeLog(widget.habit, history[i]);
+                          }),
+                        ),
+                      );
+                    },
+                  ),
+            ),
+
+            LogBar(
+              habit: widget.habit,
+              addSpecific: _addSpecific,
+              addNow: _addNow,
+            )
+          ],
         ),
       ),
     );
@@ -171,5 +189,19 @@ class _HabitDetailsSheetState extends State<HabitDetailsSheet> {
         ),
     );
     setState(() {});
+  }
+
+  String _getAvgPerWeek(Habit habit) {
+    final span = roundDay(DateTime.now()).difference(_getStartedDate(habit)).inDays  + 1;
+    final avg = habit.datesDone.length * 7.0 / span;
+    return avg < 10 ? avg.toStringAsFixed(1) : avg.toStringAsFixed(0);
+  }
+
+  DateTime _getStartedDate(Habit habit) {
+    if (habit.datesDone.isEmpty) {
+      return roundDay(habit.created);
+    }
+    var earliestLog = habit.datesDone.reduce((a, b) => a.isBefore(b) ? a : b);
+    return roundDay(habit.created.isBefore(earliestLog) ? habit.created : earliestLog);
   }
 }

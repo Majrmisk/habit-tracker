@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 
+const themePalette = [
+  Colors.red,
+  Colors.pinkAccent,
+  Colors.deepPurple,
+  Colors.indigo,
+  Colors.blue,
+  Colors.teal,
+  Colors.green,
+  Colors.lime,
+  Colors.amber,
+  Colors.deepOrange,
+];
+
 const habitsPalette = [
   Colors.red,
   Colors.pink,
@@ -22,6 +35,8 @@ const habitsPalette = [
   Colors.black,
   Colors.white,
 ];
+
+DateTime roundDay(DateTime d) => DateTime(d.year, d.month, d.day);
 
 Color contrastTextColor(Color background) {
   final brightness = ThemeData.estimateBrightnessForColor(background);

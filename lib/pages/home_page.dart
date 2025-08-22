@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/pages/settings_page.dart';
 import 'package:provider/provider.dart';
 
 import '../model/habit.dart';
-import '../provider/HabitsProvider.dart';
+import '../provider/habits_provider.dart';
 import '../widgets/habits/manage_habit/manage_habit_sheet.dart';
 import '../widgets/calendar/calendar_card.dart';
 import '../widgets/habits/habit_details/habit_details_sheet.dart';
@@ -31,23 +32,36 @@ class _HomeScaffold extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         color: scheme.surfaceContainerHighest,
         height: 50,
-        child: Center(
-          child: IconButton(
-            iconSize: 30,
-            padding: EdgeInsets.zero,
-            icon: Icon(Icons.add, color: scheme.primary),
-            onPressed: () async {
-              final habitsProv = context.read<HabitsProvider>();
-              final newHabit = await showModalBottomSheet<Habit>(
-                context: context,
-                isScrollControlled: true,
-                builder: (_) => const ManageHabitSheet(),
-              );
-              if (newHabit != null) {
-                habitsProv.addHabit(newHabit);
-              }
-            },
-          ),
+        child: Row(
+          children: [
+            IconButton(
+              iconSize: 24,
+              padding: EdgeInsets.zero,
+              icon: Icon(Icons.settings, color: scheme.primary),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              iconSize: 30,
+              padding: EdgeInsets.zero,
+              icon: Icon(Icons.add, color: scheme.primary),
+              onPressed: () async {
+                final habitsProv = context.read<HabitsProvider>();
+                final newHabit = await showModalBottomSheet<Habit>(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (_) => const ManageHabitSheet(),
+                );
+                if (newHabit != null) {
+                  habitsProv.addHabit(newHabit);
+                }
+              },
+            ),
+            const Spacer(),
+            const SizedBox(width: 50),
+          ],
         ),
       ),
 
@@ -62,7 +76,7 @@ class _HomeScaffold extends StatelessWidget {
               children: [
                 Flexible(
                   flex: 7,
-                  child: CalendarCard(habits: _habits),
+                  child: CalendarCard(),
                 ),
                 Flexible(
                   flex: 5,

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/utils.dart';
+import 'utils.dart';
 
 class GridColorPicker extends StatelessWidget {
+  final List<Color> palette;
   final Color picked;
   final ValueChanged<Color> onPick;
   const GridColorPicker({
     super.key,
+    required this.palette,
     required this.picked,
     required this.onPick,
   });
@@ -20,7 +22,7 @@ class GridColorPicker extends StatelessWidget {
         return Wrap(
           spacing: gap,
           runSpacing: gap,
-          children: habitsPalette.map((color) {
+          children: palette.map((color) {
             final selected = color == picked;
             return GestureDetector(
               onTap: () => onPick(color),
@@ -34,12 +36,12 @@ class GridColorPicker extends StatelessWidget {
                 ),
                 child:
                 selected
-                    ? Icon(
-                  Icons.check,
-                  color: contrastTextColor(color),
-                  size: 30,
-                )
-                    : null,
+                  ? Icon(
+                      Icons.check,
+                      color: contrastTextColor(color),
+                      size: 30,
+                    )
+                  : null,
               ),
             );
           }).toList(),

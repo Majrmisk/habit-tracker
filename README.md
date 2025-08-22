@@ -10,20 +10,20 @@ A minimalist habit tracking app built with Flutter.
 - **Calendar view** showing completed days with colored rings
 - **Per-habit history**: timestamped log entries
 - **Responsive layout**: app adapts to tablet landscape devices
-- **Clean material design**
+- **Clean material design** with custom/automatic themes
 
 ---
 
 ## Screenshots
 
-| Home Screen                          | Landscape New Habit                    | Habit Details                             |
+| Home Screen                          | New Habit (Landscape, Large screen)    | Habit Details (Dark theme)                |
 |--------------------------------------|----------------------------------------|-------------------------------------------|
 | ![Home](screenshots/home_screen.png) | ![Calendar](screenshots/add_habit.png) | ![Details](screenshots/habit_details.png) |
 
 
 ---
 
-## Libraries Used
+## Technologies Used
 
 - **[Flutter](https://flutter.dev/)** - UI toolkit
 - **[provider](https://pub.dev/packages/provider)** - State management
