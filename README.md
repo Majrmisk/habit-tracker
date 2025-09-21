@@ -30,4 +30,9 @@ A minimalist habit tracking app built with Flutter.
 - **[hive](https://pub.dev/packages/hive)** - Persistence
 - **[table_calendar](https://pub.dev/packages/table_calendar)** - Calendar widget
 - **[intl](https://pub.dev/packages/intl)** - Date/time formatting
+
 ---
+
+## License
+This project is licensed under the [Apache License 2.0](./LICENSE).
+
