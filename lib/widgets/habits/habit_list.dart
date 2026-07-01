@@ -21,7 +21,7 @@ class HabitList extends StatelessWidget {
     if (habits.isEmpty) {
       return Center(
         child: Text(
-          'No habits yet.',
+          'Nothing yet...',
           textAlign: TextAlign.center,
           style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 16),
         ),
@@ -37,6 +37,15 @@ class HabitList extends StatelessWidget {
             ? h.datesDone.reduce((a, b) => a.isAfter(b) ? a : b)
             : null;
 
+        final String subtitle;
+        if (h.isRoutine) {
+          subtitle = formatDueTime(h);
+        } else if (lastDone != null) {
+          subtitle = formatElapsedTime(lastDone);
+        } else {
+          subtitle = 'Never done';
+        }
+
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -45,11 +54,7 @@ class HabitList extends StatelessWidget {
             onTap: () => onHabitTap(h),
             leading: CircleAvatar(backgroundColor: h.color),
             title: Text(h.name),
-            subtitle: Text(
-              lastDone != null
-                  ? formatElapsedTime(lastDone)
-                  : 'Never done',
-            ),
+            subtitle: Text(subtitle),
             trailing: IconButton(
               icon: Icon(Icons.add, color: scheme.primary),
               onPressed: () => onHabitDone(h),

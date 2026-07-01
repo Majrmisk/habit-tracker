@@ -4,7 +4,6 @@ import '../../../model/habit.dart';
 import '../../../utils/utils.dart';
 
 class HeaderBar extends StatelessWidget {
-
   final Habit habit;
   final VoidCallback openEdit;
   final VoidCallback openDelete;
@@ -18,6 +17,10 @@ class HeaderBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = contrastTextColor(habit.color);
+    final intervalLabel =
+        habit.isRoutine ? formatInterval(habit) : null;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -28,22 +31,36 @@ class HeaderBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              habit.name,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: contrastTextColor(habit.color),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  habit.name,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+                ),
+                if (intervalLabel != null && intervalLabel.isNotEmpty)
+                  Text(
+                    intervalLabel,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: textColor.withAlpha(200),
+                    ),
+                  ),
+              ],
             ),
           ),
           IconButton(
-            icon: Icon(Icons.edit, color: contrastTextColor(habit.color)),
+            icon: Icon(Icons.edit, color: textColor),
             constraints: const BoxConstraints(minWidth: 55, minHeight: 55),
             onPressed: openEdit,
           ),
           IconButton(
-            icon: Icon(Icons.delete, color: contrastTextColor(habit.color)),
+            icon: Icon(Icons.delete, color: textColor),
             constraints: const BoxConstraints(minWidth: 55, minHeight: 55),
             onPressed: openDelete,
           ),

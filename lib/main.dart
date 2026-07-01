@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/provider/theme_provider.dart';
+import 'package:habit_tracker/utils/notification_service.dart';
 import 'package:provider/provider.dart';
 import 'package:habit_tracker/pages/home_page.dart';
 import 'package:habit_tracker/provider/habits_provider.dart';
@@ -17,10 +18,15 @@ void main() async {
   await Hive.openBox<Habit>(HabitsProvider.boxName);
   await Hive.openBox(ThemeProvider.boxName);
 
+  await NotificationService.instance.init();
+
+  final habitsProvider = HabitsProvider();
+  await NotificationService.instance.rescheduleAll(habitsProvider.routines);
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => HabitsProvider()),
+        ChangeNotifierProvider(create: (_) => habitsProvider),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const MyApp(),

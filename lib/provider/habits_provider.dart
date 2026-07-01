@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../model/habit.dart';
+import '../utils/notification_service.dart';
 import '../utils/utils.dart';
 
 class HabitsProvider extends ChangeNotifier {
@@ -9,6 +10,7 @@ class HabitsProvider extends ChangeNotifier {
   final Box<Habit> _box = Hive.box<Habit>(boxName);
 
   List<Habit> get habits => _box.values.toList();
+  List<Habit> get routines => habits.where((h) => h.isRoutine).toList();
 
   final Map<DateTime, List<Color>> _dayColors = {};
   List<Color> colorsForDay(DateTime day) => _dayColors[roundDay(day)] ?? [];
@@ -20,16 +22,28 @@ class HabitsProvider extends ChangeNotifier {
   Future<void> addHabit(Habit habit) async {
     await _box.add(habit);
     _rebuildDayColors();
+    if (habit.isRoutine) {
+      await NotificationService.instance.scheduleRoutine(habit);
+    }
     notifyListeners();
   }
 
   Future<void> updateHabit(Habit habit) async {
     await habit.save();
     _rebuildDayColors();
+    if (habit.isRoutine) {
+      await NotificationService.instance.cancelRoutine(habit);
+      await NotificationService.instance.scheduleRoutine(habit);
+    } else {
+      await NotificationService.instance.cancelRoutine(habit);
+    }
     notifyListeners();
   }
 
   Future<void> deleteHabit(Habit habit) async {
+    if (habit.isRoutine) {
+      await NotificationService.instance.cancelRoutine(habit);
+    }
     await habit.delete();
     _rebuildDayColors();
     notifyListeners();
