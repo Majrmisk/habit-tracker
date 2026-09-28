@@ -41,13 +41,17 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   backgroundColor: WidgetStateProperty.resolveWith((states) {
                     return states.contains(WidgetState.selected)
-                        ? scheme.primary : scheme.surfaceContainerHighest;
+                        ? scheme.primary
+                        : scheme.surfaceContainerHighest;
                   }),
                   foregroundColor: WidgetStateProperty.resolveWith((states) {
                     return states.contains(WidgetState.selected)
-                        ? scheme.onPrimary : scheme.onSurfaceVariant;
+                        ? scheme.onPrimary
+                        : scheme.onSurfaceVariant;
                   }),
-                  side: const WidgetStatePropertyAll(BorderSide(color: Colors.transparent)),
+                  side: const WidgetStatePropertyAll(
+                    BorderSide(color: Colors.transparent),
+                  ),
                 ),
               ),
 

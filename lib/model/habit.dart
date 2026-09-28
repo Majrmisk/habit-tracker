@@ -18,9 +18,9 @@ class Habit extends HiveObject {
     this.isRoutine = false,
     this.intervalMinutes,
     this.notificationStartMinutes,
-  })  : colorInt = color.toARGB32(),
-        datesDone = datesDone ?? [],
-        created = created ?? DateTime.now();
+  }) : colorInt = color.toARGB32(),
+       datesDone = datesDone ?? [],
+       created = created ?? DateTime.now();
 
   Color get color => Color(colorInt);
 }

@@ -62,16 +62,17 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
       final mins = habit.intervalMinutes!;
       if (mins % 1440 == 0) {
         _intervalUnit = _IntervalUnit.days;
-        _intervalValueController =
-            TextEditingController(text: (mins ~/ 1440).toString());
+        _intervalValueController = TextEditingController(
+          text: (mins ~/ 1440).toString(),
+        );
       } else if (mins % 60 == 0) {
         _intervalUnit = _IntervalUnit.hours;
-        _intervalValueController =
-            TextEditingController(text: (mins ~/ 60).toString());
+        _intervalValueController = TextEditingController(
+          text: (mins ~/ 60).toString(),
+        );
       } else {
         _intervalUnit = _IntervalUnit.minutes;
-        _intervalValueController =
-            TextEditingController(text: mins.toString());
+        _intervalValueController = TextEditingController(text: mins.toString());
       }
     } else {
       _intervalUnit = _IntervalUnit.hours;
@@ -109,8 +110,10 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
                   hintText: 'Name',
                   filled: true,
                   fillColor: scheme.surfaceContainerLow,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -135,20 +138,19 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
                     textStyle: const WidgetStatePropertyAll(
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    backgroundColor:
-                        WidgetStateProperty.resolveWith((states) {
+                    backgroundColor: WidgetStateProperty.resolveWith((states) {
                       return states.contains(WidgetState.selected)
                           ? scheme.primary
                           : scheme.surfaceContainerLow;
                     }),
-                    foregroundColor:
-                        WidgetStateProperty.resolveWith((states) {
+                    foregroundColor: WidgetStateProperty.resolveWith((states) {
                       return states.contains(WidgetState.selected)
                           ? scheme.onPrimary
                           : scheme.onSurfaceVariant;
                     }),
                     side: const WidgetStatePropertyAll(
-                        BorderSide(color: Colors.transparent)),
+                      BorderSide(color: Colors.transparent),
+                    ),
                   ),
                 ),
               ),
@@ -183,8 +185,7 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
     final inputDecoration = InputDecoration(
       filled: true,
       fillColor: scheme.surfaceContainerLow,
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
@@ -225,10 +226,9 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
                 decoration: inputDecoration,
                 borderRadius: BorderRadius.circular(12),
                 items: _IntervalUnit.values
-                    .map((u) => DropdownMenuItem(
-                          value: u,
-                          child: Text(u.label),
-                        ))
+                    .map(
+                      (u) => DropdownMenuItem(value: u, child: Text(u.label)),
+                    )
                     .toList(),
                 onChanged: (u) {
                   if (u != null) setState(() => _intervalUnit = u);
@@ -249,7 +249,9 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
               onTap: _pickStartTime,
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 10),
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: scheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(12),
@@ -284,20 +286,21 @@ class _ManageHabitSheetState extends State<ManageHabitSheet> {
     if (_isRoutine) {
       final raw = int.tryParse(_intervalValueController.text.trim()) ?? 1;
       intervalMinutes = (raw.clamp(1, 99999)) * _intervalUnit.multiplier;
-      notificationStartMinutes =
-          _startTime.hour * 60 + _startTime.minute;
+      notificationStartMinutes = _startTime.hour * 60 + _startTime.minute;
     }
 
     final provider = context.read<HabitsProvider>();
 
     if (widget.habit == null) {
-      await provider.addHabit(Habit(
-        name: name,
-        color: _picked,
-        isRoutine: _isRoutine,
-        intervalMinutes: intervalMinutes,
-        notificationStartMinutes: notificationStartMinutes,
-      ));
+      await provider.addHabit(
+        Habit(
+          name: name,
+          color: _picked,
+          isRoutine: _isRoutine,
+          intervalMinutes: intervalMinutes,
+          notificationStartMinutes: notificationStartMinutes,
+        ),
+      );
     } else {
       widget.habit!
         ..name = name

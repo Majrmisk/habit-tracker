@@ -46,8 +46,9 @@ class _AddDayLogSheetState extends State<AddDayLogSheet> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   decoration: BoxDecoration(
                     color: scheme.primaryContainer,
-                    borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(16)),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
                   ),
                   child: Center(
                     child: Text(
@@ -70,35 +71,32 @@ class _AddDayLogSheetState extends State<AddDayLogSheet> {
               ),
 
               Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                  child: ButtonsRow(
-                    confirmText: 'Add',
-                    onConfirm: () async {
-                      final provider = context.read<HabitsProvider>();
-                      final d = widget.date;
-                      final t = _time;
-                      await provider.logAt(
-                        _selected,
-                        DateTime(d.year, d.month, d.day, t.hour, t.minute),
-                      );
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                      }
-                    },
-                  )
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: ButtonsRow(
+                  confirmText: 'Add',
+                  onConfirm: () async {
+                    final provider = context.read<HabitsProvider>();
+                    final d = widget.date;
+                    final t = _time;
+                    await provider.logAt(
+                      _selected,
+                      DateTime(d.year, d.month, d.day, t.hour, t.minute),
+                    );
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
               ),
             ],
           ),
         ),
-      )
+      ),
     );
   }
 
   Future<void> _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: _time,
-    );
+    final picked = await showTimePicker(context: context, initialTime: _time);
     if (picked != null) {
       setState(() => _time = picked);
     }

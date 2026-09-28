@@ -6,11 +6,7 @@ class HabitPicker extends StatefulWidget {
   final List<Habit> habits;
   final ValueChanged<Habit> onChanged;
 
-  const HabitPicker({
-    super.key,
-    required this.habits,
-    required this.onChanged,
-  });
+  const HabitPicker({super.key, required this.habits, required this.onChanged});
 
   @override
   State<HabitPicker> createState() => _HabitPickerState();
@@ -47,8 +43,8 @@ class _HabitPickerState extends State<HabitPicker> {
             scale: selected ? 1.2 : 1,
             duration: const Duration(milliseconds: 150),
             child: HabitPickerHabit(
-                habit: widget.habits[i],
-                selected: selected,
+              habit: widget.habits[i],
+              selected: selected,
             ),
           );
         },

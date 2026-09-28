@@ -53,10 +53,8 @@ void main() {
     await prov.logAt(h, d1);
     await prov.logAt(h, d2);
 
-    expect(
-        prov.colorsForDay(d1).toSet(), {Color(Colors.red.toARGB32())});
-    expect(
-        prov.colorsForDay(d2).toSet(), {Color(Colors.red.toARGB32())});
+    expect(prov.colorsForDay(d1).toSet(), {Color(Colors.red.toARGB32())});
+    expect(prov.colorsForDay(d2).toSet(), {Color(Colors.red.toARGB32())});
   });
 
   test('removeLog - colorsForDay', () async {
@@ -69,12 +67,13 @@ void main() {
     await prov.logAt(h1, d);
     await prov.logAt(h2, d);
 
-    expect(prov.colorsForDay(d).toSet(),
-        {Color(Colors.red.toARGB32()), Color(Colors.blue.toARGB32())});
+    expect(prov.colorsForDay(d).toSet(), {
+      Color(Colors.red.toARGB32()),
+      Color(Colors.blue.toARGB32()),
+    });
 
     await prov.removeLog(h1, d);
-    expect(
-        prov.colorsForDay(d).toSet(), {Color(Colors.blue.toARGB32())});
+    expect(prov.colorsForDay(d).toSet(), {Color(Colors.blue.toARGB32())});
   });
 
   test('deleteHabit - colorsForDay', () async {
@@ -84,8 +83,7 @@ void main() {
     final d = DateTime(2025, 8, 12);
     await prov.logAt(h, d);
 
-    expect(
-        prov.colorsForDay(d).toSet(), {Color(Colors.red.toARGB32())});
+    expect(prov.colorsForDay(d).toSet(), {Color(Colors.red.toARGB32())});
 
     await prov.deleteHabit(h);
     expect(prov.colorsForDay(d), isEmpty);
@@ -97,13 +95,11 @@ void main() {
 
     final d = DateTime(2025, 8, 13);
     await prov.logAt(h, d);
-    expect(
-        prov.colorsForDay(d).toSet(), {Color(Colors.red.toARGB32())});
+    expect(prov.colorsForDay(d).toSet(), {Color(Colors.red.toARGB32())});
 
     h.colorInt = Colors.purple.toARGB32();
     await prov.updateHabit(h);
-    expect(
-        prov.colorsForDay(d).toSet(), {Color(Colors.purple.toARGB32())});
+    expect(prov.colorsForDay(d).toSet(), {Color(Colors.purple.toARGB32())});
   });
 
   test('addHabit - routine fields persisted', () async {
@@ -180,26 +176,44 @@ void main() {
 
   group('formatInterval', () {
     Habit makeRoutine(int mins) => Habit(
-          name: 'x',
-          color: Colors.red,
-          isRoutine: true,
-          intervalMinutes: mins,
-          notificationStartMinutes: 0,
-        );
+      name: 'x',
+      color: Colors.red,
+      isRoutine: true,
+      intervalMinutes: mins,
+      notificationStartMinutes: 0,
+    );
 
     test('minutes', () {
-      expect(formatInterval(makeRoutine(30)), allOf(contains('30'), contains('min')));
-      expect(formatInterval(makeRoutine(1)), allOf(contains('1'), contains('min')));
+      expect(
+        formatInterval(makeRoutine(30)),
+        allOf(contains('30'), contains('min')),
+      );
+      expect(
+        formatInterval(makeRoutine(1)),
+        allOf(contains('1'), contains('min')),
+      );
     });
 
     test('hours', () {
-      expect(formatInterval(makeRoutine(60)), allOf(contains('1'), contains('hour')));
-      expect(formatInterval(makeRoutine(120)), allOf(contains('2'), contains('hour')));
+      expect(
+        formatInterval(makeRoutine(60)),
+        allOf(contains('1'), contains('hour')),
+      );
+      expect(
+        formatInterval(makeRoutine(120)),
+        allOf(contains('2'), contains('hour')),
+      );
     });
 
     test('days', () {
-      expect(formatInterval(makeRoutine(1440)), allOf(contains('1'), contains('day')));
-      expect(formatInterval(makeRoutine(2880)), allOf(contains('2'), contains('day')));
+      expect(
+        formatInterval(makeRoutine(1440)),
+        allOf(contains('1'), contains('day')),
+      );
+      expect(
+        formatInterval(makeRoutine(2880)),
+        allOf(contains('2'), contains('day')),
+      );
     });
 
     test('non-routine returns empty', () {
@@ -254,8 +268,10 @@ void main() {
     });
 
     test('no schedule contains fallback message', () {
-      expect(formatDueTime(Habit(name: 'x', color: Colors.red)),
-          contains('No schedule'));
+      expect(
+        formatDueTime(Habit(name: 'x', color: Colors.red)),
+        contains('No schedule'),
+      );
     });
   });
 }

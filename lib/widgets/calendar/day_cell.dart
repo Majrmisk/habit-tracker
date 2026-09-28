@@ -14,14 +14,8 @@ class DayCell extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: [
-            CustomPaint(
-              size: Size.square(side),
-              painter: RingPainter(colors),
-            ),
-            Text(
-              '${date.day}',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            CustomPaint(size: Size.square(side), painter: RingPainter(colors)),
+            Text('${date.day}', style: Theme.of(context).textTheme.bodyMedium),
           ],
         );
       },

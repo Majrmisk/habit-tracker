@@ -6,7 +6,11 @@ import '../../../../utils/utils.dart';
 class HabitPickerHabit extends StatelessWidget {
   final Habit habit;
   final bool selected;
-  const HabitPickerHabit({super.key, required this.habit, required this.selected});
+  const HabitPickerHabit({
+    super.key,
+    required this.habit,
+    required this.selected,
+  });
 
   @override
   Widget build(BuildContext context) {

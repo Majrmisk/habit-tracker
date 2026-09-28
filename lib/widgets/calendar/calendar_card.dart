@@ -43,8 +43,8 @@ class _CalendarCardState extends State<CalendarCard> {
         },
 
         calendarBuilders: CalendarBuilders(
-          defaultBuilder:  cell,
-          todayBuilder:    cell,
+          defaultBuilder: cell,
+          todayBuilder: cell,
           selectedBuilder: cell,
 
           // Remove event dots

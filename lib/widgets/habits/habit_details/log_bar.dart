@@ -38,9 +38,7 @@ class LogBar extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: scheme.primary,
-                  ),
+                  style: TextButton.styleFrom(foregroundColor: scheme.primary),
                   onPressed: addNow,
                   child: const Text('Now'),
                 ),
@@ -50,9 +48,7 @@ class LogBar extends StatelessWidget {
 
               Expanded(
                 child: TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: scheme.primary,
-                  ),
+                  style: TextButton.styleFrom(foregroundColor: scheme.primary),
                   onPressed: addSpecific,
                   child: const Text('Custom'),
                 ),

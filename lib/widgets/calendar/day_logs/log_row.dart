@@ -18,16 +18,12 @@ class LogRow extends StatelessWidget {
         children: [
           Text(
             TimeOfDay.fromDateTime(log.time).format(context),
-            style: TextStyle(
-              color: scheme.onSurfaceVariant,
-              fontSize: 16,
-            ),
+            style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 16),
           ),
           const SizedBox(width: 16),
 
           Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: log.habit.color,
               borderRadius: BorderRadius.circular(12),
@@ -45,12 +41,9 @@ class LogRow extends StatelessWidget {
           const Spacer(),
 
           IconButton(
-            icon: Icon(Icons.delete,
-                color: scheme.onSurfaceVariant),
+            icon: Icon(Icons.delete, color: scheme.onSurfaceVariant),
             onPressed: () {
-              context
-                  .read<HabitsProvider>()
-                  .removeLog(log.habit, log.time);
+              context.read<HabitsProvider>().removeLog(log.habit, log.time);
             },
           ),
         ],

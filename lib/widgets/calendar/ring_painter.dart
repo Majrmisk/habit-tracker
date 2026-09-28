@@ -10,7 +10,7 @@ class RingPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (colors.isEmpty) return;
 
-    final thickness   = (size.width / 2 - innerRadius) / colors.length;
+    final thickness = (size.width / 2 - innerRadius) / colors.length;
 
     for (var i = 0; i < colors.length; i++) {
       final radius = innerRadius + thickness * (i + 0.5);

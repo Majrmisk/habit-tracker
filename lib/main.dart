@@ -43,19 +43,23 @@ class MyApp extends StatelessWidget {
 
     return DynamicColorBuilder(
       builder: (ColorScheme? dynamicLight, ColorScheme? dynamicDark) {
-        final useDynamic = themeProv.useDynamic
-            && dynamicLight != null
-            && dynamicDark != null;
+        final useDynamic =
+            themeProv.useDynamic && dynamicLight != null && dynamicDark != null;
 
         ColorScheme light;
         ColorScheme dark;
         if (useDynamic) {
           light = dynamicLight;
           dark = dynamicDark;
-        }
-        else {
-          light = ColorScheme.fromSeed(seedColor: themeProv.seed, brightness: Brightness.light);
-          dark = ColorScheme.fromSeed(seedColor: themeProv.seed, brightness: Brightness.dark);
+        } else {
+          light = ColorScheme.fromSeed(
+            seedColor: themeProv.seed,
+            brightness: Brightness.light,
+          );
+          dark = ColorScheme.fromSeed(
+            seedColor: themeProv.seed,
+            brightness: Brightness.dark,
+          );
         }
 
         return MaterialApp(

@@ -45,8 +45,9 @@ class _DayLogsSheetState extends State<DayLogsSheet> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Center(
                   child: Text(
-                    MaterialLocalizations.of(context)
-                        .formatMediumDate(widget.date),
+                    MaterialLocalizations.of(
+                      context,
+                    ).formatMediumDate(widget.date),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -58,17 +59,17 @@ class _DayLogsSheetState extends State<DayLogsSheet> {
 
               Expanded(
                 child: logs.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No logs for this day',
-                        style: TextStyle(color: scheme.onSurfaceVariant),
+                    ? Center(
+                        child: Text(
+                          'No logs for this day',
+                          style: TextStyle(color: scheme.onSurfaceVariant),
+                        ),
+                      )
+                    : ListView.separated(
+                        itemCount: logs.length,
+                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        itemBuilder: (_, i) => LogRow(log: logs[i]),
                       ),
-                    )
-                  : ListView.separated(
-                      itemCount: logs.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
-                      itemBuilder: (_, i) => LogRow(log: logs[i]),
-                    ),
               ),
 
               SafeArea(
@@ -90,7 +91,7 @@ class _DayLogsSheetState extends State<DayLogsSheet> {
             ],
           ),
         ),
-      )
+      ),
     );
   }
 

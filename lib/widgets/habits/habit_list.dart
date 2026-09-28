@@ -8,7 +8,8 @@ class HabitList extends StatelessWidget {
   final void Function(Habit) onHabitDone;
   final void Function(Habit) onHabitTap;
 
-  const HabitList({super.key,
+  const HabitList({
+    super.key,
     required this.habits,
     required this.onHabitDone,
     required this.onHabitTap,
@@ -48,7 +49,9 @@ class HabitList extends StatelessWidget {
 
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           elevation: 2,
           child: ListTile(
             onTap: () => onHabitTap(h),

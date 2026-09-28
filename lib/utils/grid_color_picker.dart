@@ -34,14 +34,13 @@ class GridColorPicker extends StatelessWidget {
                   color: color,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child:
-                selected
-                  ? Icon(
-                      Icons.check,
-                      color: contrastTextColor(color),
-                      size: 30,
-                    )
-                  : null,
+                child: selected
+                    ? Icon(
+                        Icons.check,
+                        color: contrastTextColor(color),
+                        size: 30,
+                      )
+                    : null,
               ),
             );
           }).toList(),

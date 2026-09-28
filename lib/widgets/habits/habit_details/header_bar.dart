@@ -18,8 +18,7 @@ class HeaderBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textColor = contrastTextColor(habit.color);
-    final intervalLabel =
-        habit.isRoutine ? formatInterval(habit) : null;
+    final intervalLabel = habit.isRoutine ? formatInterval(habit) : null;
 
     return Container(
       width: double.infinity,

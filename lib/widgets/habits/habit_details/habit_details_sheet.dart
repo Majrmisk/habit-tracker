@@ -40,22 +40,19 @@ class _HabitDetailsSheetState extends State<HabitDetailsSheet> {
         child: Column(
           children: [
             HeaderBar(
-                habit: widget.habit,
-                openEdit: _openEdit,
-                openDelete: _openDelete
+              habit: widget.habit,
+              openEdit: _openEdit,
+              openDelete: _openDelete,
             ),
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Row(
                 children: [
+                  Stat(value: _getAvgPerWeek(widget.habit), label: 'Avg/week'),
                   Stat(
-                      value: _getAvgPerWeek(widget.habit),
-                      label: 'Avg/week',
-                  ),
-                  Stat(
-                      value: widget.habit.datesDone.length.toString(),
-                      label: 'Times done',
+                    value: widget.habit.datesDone.length.toString(),
+                    label: 'Times done',
                   ),
                 ],
               ),
@@ -65,41 +62,40 @@ class _HabitDetailsSheetState extends State<HabitDetailsSheet> {
 
             Expanded(
               child: history.isEmpty
-                ? Center(
-                    child: Text(
-                      'Never done',
-                      style: TextStyle(
-                        color: scheme.onSurfaceVariant,
+                  ? Center(
+                      child: Text(
+                        'Never done',
+                        style: TextStyle(color: scheme.onSurfaceVariant),
                       ),
+                    )
+                  : ListView.separated(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      itemCount: history.length,
+                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      itemBuilder: (_, i) {
+                        final label = _formatter.format(history[i]);
+                        return ListTile(
+                          title: Text(label),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete),
+                            color: scheme.secondary,
+                            onPressed: () => setState(() {
+                              context.read<HabitsProvider>().removeLog(
+                                widget.habit,
+                                history[i],
+                              );
+                            }),
+                          ),
+                        );
+                      },
                     ),
-                  )
-                : ListView.separated(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    itemCount: history.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
-                    itemBuilder: (_, i) {
-                      final label = _formatter.format(history[i]);
-                      return ListTile(
-                        title: Text(label),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          color: scheme.secondary,
-                          onPressed: () => setState(() {
-                            context
-                                .read<HabitsProvider>()
-                                .removeLog(widget.habit, history[i]);
-                          }),
-                        ),
-                      );
-                    },
-                  ),
             ),
 
             LogBar(
               habit: widget.habit,
               addSpecific: _addSpecific,
               addNow: _addNow,
-            )
+            ),
           ],
         ),
       ),
@@ -113,8 +109,7 @@ class _HabitDetailsSheetState extends State<HabitDetailsSheet> {
       builder: (_) => ManageHabitSheet(habit: widget.habit),
     );
 
-    setState(() {
-    });
+    setState(() {});
   }
 
   Future<void> _openDelete() async {
@@ -179,20 +174,15 @@ class _HabitDetailsSheetState extends State<HabitDetailsSheet> {
     );
     if (time == null) return;
     await habitsProv.logAt(
-        widget.habit,
-        DateTime(
-            date.year,
-            date.month,
-            date.day,
-            time.hour,
-            time.minute,
-        ),
+      widget.habit,
+      DateTime(date.year, date.month, date.day, time.hour, time.minute),
     );
     setState(() {});
   }
 
   String _getAvgPerWeek(Habit habit) {
-    final span = roundDay(DateTime.now()).difference(_getStartedDate(habit)).inDays  + 1;
+    final span =
+        roundDay(DateTime.now()).difference(_getStartedDate(habit)).inDays + 1;
     final avg = habit.datesDone.length * 7.0 / span;
     return avg < 10 ? avg.toStringAsFixed(1) : avg.toStringAsFixed(0);
   }
@@ -202,6 +192,8 @@ class _HabitDetailsSheetState extends State<HabitDetailsSheet> {
       return roundDay(habit.created);
     }
     var earliestLog = habit.datesDone.reduce((a, b) => a.isBefore(b) ? a : b);
-    return roundDay(habit.created.isBefore(earliestLog) ? habit.created : earliestLog);
+    return roundDay(
+      habit.created.isBefore(earliestLog) ? habit.created : earliestLog,
+    );
   }
 }

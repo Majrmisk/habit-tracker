@@ -14,9 +14,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _HomeScaffold(
-        habits: context.watch<HabitsProvider>().habits,
-    );
+    return _HomeScaffold(habits: context.watch<HabitsProvider>().habits);
   }
 }
 
@@ -38,9 +36,9 @@ class _HomeScaffold extends StatelessWidget {
               iconSize: 24,
               padding: EdgeInsets.zero,
               icon: Icon(Icons.settings, color: scheme.primary),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const SettingsScreen()),
-              ),
+              onPressed: () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
             ),
             const Spacer(),
             IconButton(
@@ -74,10 +72,7 @@ class _HomeScaffold extends StatelessWidget {
             return Flex(
               direction: axis,
               children: [
-                Flexible(
-                  flex: 7,
-                  child: CalendarCard(),
-                ),
+                Flexible(flex: 7, child: CalendarCard()),
                 Flexible(
                   flex: 5,
                   child: HabitList(
